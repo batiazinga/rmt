@@ -1,8 +1,9 @@
-import math
 from pathlib import Path
 
 import numpy as np
-import plotly.graph_objects as go
+import plotly.graph_objects as go  # type: ignore
+
+from wishart.lib import marchenko_pastur
 
 
 def read_eigen_values(filename: str) -> tuple[int, int, tuple[float, ...]]:
@@ -15,16 +16,6 @@ def read_eigen_values(filename: str) -> tuple[int, int, tuple[float, ...]]:
     return n, p, tuple(eigen_values)
 
 
-def marchenko_pastur(n: int, p: int, x: np.ndarray) -> np.ndarray:
-    c = float(p) / float(n)
-    lambda_p = (1 + math.sqrt(c)) ** 2
-    lambda_m = (1 - math.sqrt(c)) ** 2
-    norm = 2 * math.pi * c
-    return np.divide(
-        np.divide(np.sqrt(np.maximum((lambda_p - x) * (x - lambda_m), 0.0)), x), norm
-    )
-
-
 fig = go.Figure()
 
 n, p, eigen_values = read_eigen_values("wishart_n_p_eigs.txt")
@@ -34,7 +25,8 @@ fig.add_trace(
     go.Bar(x=empirical_density[1], y=empirical_density[0] / float(p) / empirical_delta)
 )
 
-x = np.arange(0.01, 1.6, 0.01)
+
+x = np.arange(0.005, 1.6, 0.005)
 limit_density = marchenko_pastur(n, p, x)
 fig.add_trace(
     go.Scatter(

@@ -3,15 +3,9 @@ from pathlib import Path
 
 import numpy as np
 
+from wishart.lib import white_wishart_matrix
+
 np.random.seed(42)
-
-
-def wishart_eigen_values(n: int, p: int) -> np.ndarray:
-    """Return the eigen values of a white Wishart matrix in ascending order."""
-    x = np.random.randn(p, n)
-    xt = np.transpose(x)
-    wishart = np.matmul(x, xt) / n
-    return np.linalg.eigvalsh(wishart)
 
 
 def dump_results(n: int, p: int, eigen_values: Iterable[float]) -> None:
@@ -30,5 +24,5 @@ p: int = 500  # dimension
 n: int = 50000  # number of samples
 
 
-eigen_values = wishart_eigen_values(n, p)
+eigen_values = np.linalg.eigvalsh(white_wishart_matrix(n, p))
 dump_results(n, p, eigen_values)
