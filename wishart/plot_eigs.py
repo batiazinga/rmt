@@ -25,9 +25,9 @@ fig.add_trace(
     go.Bar(x=empirical_density[1], y=empirical_density[0] / float(p) / empirical_delta)
 )
 
-
+c = float(p) / float(n)
 x = np.arange(0.005, 1.6, 0.005)
-limit_density = marchenko_pastur(n, p, x)
+limit_density = marchenko_pastur(c, x)
 fig.add_trace(
     go.Scatter(
         {
