@@ -3,13 +3,8 @@ import math
 import numpy as np
 
 
-def white_wishart_matrix(n: int, p: int) -> np.ndarray:
-    """Return a white Wishart matrix of size p.
-
-    Or Sample Covariance Matrix of the variables."""
-    x = np.random.randn(p, n)
-    xt = np.transpose(x)
-    return np.matmul(x, xt) / n
+def scm_matrix(data: np.ndarray) -> np.ndarray:
+    return np.matmul(data, np.transpose(data)) / data.shape[1]
 
 
 def marchenko_pastur(c: float, x: np.ndarray) -> np.ndarray:

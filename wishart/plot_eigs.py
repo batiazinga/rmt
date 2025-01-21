@@ -1,24 +1,24 @@
-from pathlib import Path
-
 import numpy as np
 import plotly.graph_objects as go  # type: ignore
 
-from wishart.lib import marchenko_pastur
+from wishart.lib import marchenko_pastur, scm_matrix
+
+np.random.seed(42)
 
 
-def read_eigen_values(filename: str) -> tuple[int, int, tuple[float, ...]]:
-    eigen_values: list[float] = []
-    with open(Path("results") / filename, mode="r", encoding="utf8") as f:
-        n = int(f.readline())
-        p = int(f.readline())
-        for str_value in f.readlines():
-            eigen_values.append(float(str_value))
-    return n, p, tuple(eigen_values)
+def white_wishart_matrix_eigenvalues(n: int, p: int) -> np.ndarray:
+    x = np.random.randn(p, n)
+    return np.linalg.eigvalsh(scm_matrix(x))
+
+
+# parameters
+p = 500  # dimension
+n = 50000  # sample size
 
 
 fig = go.Figure()
 
-n, p, eigen_values = read_eigen_values("wishart_n_p_eigs.txt")
+eigen_values = white_wishart_matrix_eigenvalues(n, p)
 empirical_density = np.histogram(eigen_values, bins=30)
 empirical_delta = empirical_density[1][1] - empirical_density[1][0]
 fig.add_trace(
