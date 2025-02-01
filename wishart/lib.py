@@ -3,7 +3,8 @@ import math
 import numpy as np
 
 
-def scm_matrix(data: np.ndarray) -> np.ndarray:
+def scm(data: np.ndarray) -> np.ndarray:
+    """Sample Covariance Matrix."""
     return np.matmul(data, np.transpose(data)) / data.shape[1]
 
 
@@ -32,8 +33,8 @@ def limit_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
 
 
 def gamma(c: float, z: np.ndarray) -> np.ndarray:
-    """Related to the Stieltjes of the Sample Covariance Matrix of the observations by:
-    gamma = - 1 / obs_stieljes
+    """Related to the Stieltjes of the Sample Covariance Matrix by:
+    gamma = - 1 / stieljes
     """
     lower, upper = ((1 - math.sqrt(c)) ** 2, (1 + math.sqrt(c)) ** 2)
     num = 2 * z
