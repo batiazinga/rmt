@@ -33,7 +33,7 @@ def limit_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
 
 
 def gamma(c: float, z: np.ndarray) -> np.ndarray:
-    """Related to the Stieltjes of the Sample Covariance Matrix by:
+    """Related to the Stieltjes of the Sample Covariance Matrix of the observations by:
     gamma = - 1 / stieljes
     """
     lower, upper = ((1 - math.sqrt(c)) ** 2, (1 + math.sqrt(c)) ** 2)

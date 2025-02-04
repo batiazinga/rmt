@@ -21,12 +21,12 @@ eigen_values = np.linalg.eigvalsh(scm(data))
 # p-1 zeros (one between each pair of eigenvalue) + a 0.0
 sqrt_eigen_vec = np.array([np.sqrt(eigen_values)])
 l = np.diag(eigen_values)
-stieltjes_zeros_matrix = l - sqrt_eigen_vec.T.dot(sqrt_eigen_vec) / p
+stieltjes_zeros_matrix = l - sqrt_eigen_vec.T.dot(sqrt_eigen_vec) / n
 stieltjes_zeros = np.linalg.eigvalsh(stieltjes_zeros_matrix)
 
 # infer the value of the (unique) eigen values of the true correlation matrix
 # the true correlation matrix is the identity, so we expect to find 1.0
-estimate: float = np.sum(eigen_values - stieltjes_zeros)
+estimate: float = np.sum(eigen_values - stieltjes_zeros) / c
 print(f"Estimate of the true eigen value: {estimate} (expecting 1.0)")
 
 fig = go.Figure(
