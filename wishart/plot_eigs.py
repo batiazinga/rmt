@@ -17,7 +17,7 @@ data = np.random.randn(p, n)
 # eigen values of the Wishart matrix
 eigen_values = np.linalg.eigvalsh(scm(data))
 
-# zeros of the empirical Stieltjes transform of the Wishart matrix
+# zeros of the empirical Stieltjes transform of the co Wishart matrix
 # p-1 zeros (one between each pair of eigenvalue) + a 0.0
 sqrt_eigen_vec = np.array([np.sqrt(eigen_values)])
 l = np.diag(eigen_values)
