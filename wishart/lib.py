@@ -32,6 +32,20 @@ def limit_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
     return np.divide(num, denom)
 
 
+def inverse_limit_co_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
+    """Functional inverse of the Stieltjes transform of the Sample Covariance Matrix of
+    the observations.
+    """
+    return -np.divide(1.0, z) + np.divide(c, 1.0 + z)
+
+
+def inverse_limit_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
+    """Functional inverse of the Stieltjes transform of the Sample Covariance Matrix of
+    the variables (~blue transform).
+    """
+    return -np.divide(1.0, z) + np.divide(1.0, 1.0 + c * z)
+
+
 def gamma(c: float, z: np.ndarray) -> np.ndarray:
     """Related to the Stieltjes of the Sample Covariance Matrix of the observations by:
     gamma = - 1 / stieljes
