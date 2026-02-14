@@ -1,11 +1,13 @@
 import math
+from typing import Any
 
 import numpy as np
+import scipy
 
 
 def scm(data: np.ndarray) -> np.ndarray:
     """Sample Covariance Matrix."""
-    return data @ data.T / data.shape[1]
+    return data @ np.linalg.matrix_transpose(data) / data.shape[-1]
 
 
 def marchenko_pastur(c: float, x: np.ndarray) -> np.ndarray:
@@ -48,3 +50,20 @@ def gamma(c: float, z: np.ndarray) -> np.ndarray:
     num = 2 * z
     denom = 1 - c + z - np.emath.sqrt(z - lower) * np.emath.sqrt(z - upper)
     return num / denom
+
+
+def tracy_widom1(x: Any) -> Any:
+    """Probability distribution of the Tracy Widom distribution (beta=1)."""
+    # From https://www.mathworks.com/matlabcentral/fileexchange/44711-approximation-for-the-tracy-widom-laws
+    k = 46.44604884387787
+    theta = 0.18605402228279347
+    alpha = 9.848007781128567
+    return _pdf_gamma(np.array(x) + alpha, theta, k)
+
+
+def _pdf_gamma(x: Any, theta: float, k: float) -> Any:
+    return np.where(
+        x > 0,
+        1 / (scipy.special.gamma(k) * theta**k) * x ** (k - 1) * np.exp(-x / theta),
+        0.0,
+    )
