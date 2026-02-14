@@ -2,6 +2,7 @@ ruff ~= 0.15.1
 
 mypy ~= 1.19.1
 scipy-stubs ~= 1.17.0.2
+plotly-stubs ~= 0.1.2
 
 numpy ~= 2.4.2
 scipy ~= 1.17.0

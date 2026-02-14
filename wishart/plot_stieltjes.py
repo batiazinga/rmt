@@ -1,6 +1,6 @@
 import numpy as np
-import plotly.graph_objects as go  # type: ignore
-from plotly.subplots import make_subplots  # type: ignore
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 from wishart.lib import scm
 

@@ -1,5 +1,5 @@
 import numpy as np
-import plotly.graph_objects as go  # type: ignore
+import plotly.graph_objects as go
 
 from wishart.lib import (
     inverse_limit_co_stieltjes,

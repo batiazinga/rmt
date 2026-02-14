@@ -1,16 +1,21 @@
+from __future__ import annotations
+
 import math
-from typing import Any
+from typing import TYPE_CHECKING
 
 import numpy as np
 import scipy
 
+if TYPE_CHECKING:
+    import numpy.typing as npt
 
-def scm(data: np.ndarray) -> np.ndarray:
+
+def scm(data: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Sample Covariance Matrix."""
     return data @ np.linalg.matrix_transpose(data) / data.shape[-1]
 
 
-def marchenko_pastur(c: float, x: np.ndarray) -> np.ndarray:
+def marchenko_pastur(c: float, x: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Distribution of the eigen values of a white Wishart matrix of size p.
 
     The singularity at 0 for n < p is ignored.
@@ -25,26 +30,30 @@ def marchenko_pastur_bounds(c: float) -> tuple[float, float]:
     return ((1 - math.sqrt(c)) ** 2, (1 + math.sqrt(c)) ** 2)
 
 
-def limit_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
+def limit_stieltjes(c: float, z: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     lower, upper = ((1 - math.sqrt(c)) ** 2, (1 + math.sqrt(c)) ** 2)
     num = 1 - c - z + np.emath.sqrt(z - lower) * np.emath.sqrt(z - upper)
     denom = 2 * c * z
     return num / denom
 
 
-def inverse_limit_co_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
+def inverse_limit_co_stieltjes(
+    c: float, z: npt.NDArray[np.float64]
+) -> npt.NDArray[np.float64]:
     """Functional inverse of the Stieltjes transform of the Gram Matrix."""
     return -1.0 / z + c / (1.0 + z)
 
 
-def inverse_limit_stieltjes(c: float, z: np.ndarray) -> np.ndarray:
+def inverse_limit_stieltjes(
+    c: float, z: npt.NDArray[np.float64]
+) -> npt.NDArray[np.float64]:
     """Functional inverse of the Stieltjes transform of the Sample Covariance Matrix
     (~blue transform).
     """
     return -1.0 / z + 1.0 / (1.0 + c * z)
 
 
-def gamma(c: float, z: np.ndarray) -> np.ndarray:
+def gamma(c: float, z: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Related to the Stieltjes of the Gram Matrix by gamma = - 1 / stieljes"""
     lower, upper = ((1 - math.sqrt(c)) ** 2, (1 + math.sqrt(c)) ** 2)
     num = 2 * z
@@ -52,7 +61,7 @@ def gamma(c: float, z: np.ndarray) -> np.ndarray:
     return num / denom
 
 
-def tracy_widom1(x: Any) -> Any:
+def tracy_widom1(x: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Probability distribution of the Tracy Widom distribution (beta=1)."""
     # From https://www.mathworks.com/matlabcentral/fileexchange/44711-approximation-for-the-tracy-widom-laws
     k = 46.44604884387787
@@ -61,7 +70,9 @@ def tracy_widom1(x: Any) -> Any:
     return _pdf_gamma(np.array(x) + alpha, theta, k)
 
 
-def _pdf_gamma(x: Any, theta: float, k: float) -> Any:
+def _pdf_gamma(
+    x: npt.NDArray[np.float64], theta: float, k: float
+) -> npt.NDArray[np.float64]:
     return np.where(
         x > 0,
         1 / (scipy.special.gamma(k) * theta**k) * x ** (k - 1) * np.exp(-x / theta),

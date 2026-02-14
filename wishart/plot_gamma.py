@@ -1,5 +1,5 @@
 import numpy as np
-import plotly.graph_objects as go  # type: ignore
+import plotly.graph_objects as go
 
 from wishart.lib import gamma, marchenko_pastur, marchenko_pastur_bounds
 
