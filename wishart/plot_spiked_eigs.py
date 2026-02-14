@@ -78,6 +78,18 @@ fig.add_trace(
 
 fig.add_trace(
     go.Scatter(
+        x=[1 + sqrt_c],
+        y=[0],
+        mode="markers",
+        marker_symbol="circle",
+        marker_size=10,
+        name="Phase transition",
+        line=go.scatter.Line(color="red"),
+    )
+)
+
+fig.add_trace(
+    go.Scatter(
         x=1.0 + eig_perturbation,
         y=[0.0] * len(eig_perturbation),
         mode="markers",
